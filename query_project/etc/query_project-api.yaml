@@ -1,0 +1,21 @@
+Name: query_project-api
+Host: 0.0.0.0
+Port: 8000
+
+Auth:
+  AccessSecret: dsgdasgadsg
+  AccessExpire: 3600
+  RefreshExpire: 86400
+  Salt: dsgdasgadsg
+
+DataBaseConf:
+  Host: 127.0.0.1 
+  Port: 3306
+  DBName: UserCrypto1
+  UserName: root
+  PassWord: "xxxxxxxx"
+
+RedisConf:
+  Host: 127.0.0.1:6379
+  Type: node
+  PassWd: test

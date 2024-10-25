@@ -1,0 +1,40 @@
+type LoginRequest {
+	LoginUserName string `json:"login_user_name"`
+	LoginPassWord string `json:"login_pass_word"`
+}
+
+type JwtToken {
+	AccessToken  string `json:"access_token,omitempty"`
+	AccessExpire int64  `json:"access_expire,omitempty"`
+}
+
+type LoginResponse {
+	LoginUserName string   `json:"login_user_name"`
+	JwtToken      JwtToken `json:"jwt_token"`
+}
+
+type RegisterRequest {
+	RegisterUserName string `json:"register_user_name"`
+	RegisterPassWord string `json:"register_pass_word"`
+	InviteCode       string `json:"invite_code"`
+}
+
+type RegisterResponse {
+	RegisterUserName string `json:"register_user_name"`
+}
+
+service query_project-api {
+	@handler Login
+	post /api/v1/user/login (LoginRequest) returns (LoginResponse)
+	
+	@handler Register
+	post /api/v1/user/register (RegisterRequest) returns (RegisterResponse)
+}
+
+@server (
+	jwt:        Auth
+	middleware: Authority
+)
+service query_project-api {
+	
+}
