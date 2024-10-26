@@ -16,7 +16,7 @@ type ServiceContext struct {
 	Authority   rest.Middleware
 	RedisClient *redis.Redis
 
-	UserAdminModel model.UserAdminModel
+	QueryuserModel model.QueryuserModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -34,6 +34,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Config:         c,
 		RedisClient:    RedisClient,
 		Authority:      middleware.NewAuthorityMiddleware(RedisClient).Handle,
-		UserAdminModel: model.NewUserAdminModel(userAdminConn),
+		QueryuserModel: model.NewQueryuserModel(userAdminConn),
 	}
 }

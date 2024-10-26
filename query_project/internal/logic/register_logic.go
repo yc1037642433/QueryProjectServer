@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"time"
 
 	"github.com/pkg/errors"
 
@@ -27,7 +28,7 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 }
 
 func (l *RegisterLogic) Register(req *types.RegisterRequest) (resp *types.RegisterResponse, err error) {
-	_, err = l.svcCtx.UserAdminModel.FindOneByUsername(l.ctx, req.RegisterUserName)
+	_, err = l.svcCtx.QueryuserModel.FindOneByUsername(l.ctx, req.RegisterUserName)
 	if err == nil {
 		logx.Error("用户名已存在")
 		return nil, errors.Errorf("用户已存在")
@@ -37,9 +38,10 @@ func (l *RegisterLogic) Register(req *types.RegisterRequest) (resp *types.Regist
 		return nil, err
 	}
 
-	_, err = l.svcCtx.UserAdminModel.Insert(l.ctx, &model.UserAdmin{
-		Username: req.RegisterUserName,
-		Passwd:   ToHmac(req.RegisterPassWord, l.svcCtx.Config.Auth.Salt),
+	_, err = l.svcCtx.QueryuserModel.Insert(l.ctx, &model.Queryuser{
+		Username:   req.RegisterUserName,
+		Passwd:     ToHmac(req.RegisterPassWord, l.svcCtx.Config.Auth.Salt),
+		CreateTime: time.Now(),
 	})
 	if err != nil {
 		logx.Error("insert user error:", err)

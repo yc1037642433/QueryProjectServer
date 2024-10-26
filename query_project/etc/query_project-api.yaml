@@ -9,11 +9,11 @@ Auth:
   Salt: dsgdasgadsg
 
 DataBaseConf:
-  Host: 127.0.0.1 
+  Host: 47.109.74.68 
   Port: 3306
-  DBName: UserCrypto1
+  DBName: QueryProject 
   UserName: root
-  PassWord: "xxxxxxxx"
+  PassWord: "test1234"
 
 RedisConf:
   Host: 127.0.0.1:6379

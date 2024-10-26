@@ -1,4 +1,4 @@
-CREATE TABLE user_admin (
+CREATE TABLE queryuser (
     `id` bigint Not NULL AUTO_INCREMENT,
     `username` varchar(255) Not NULL DEFAULT 1 Comment "登录用户名",
     `passwd` varchar(255) Not NULL DEFAULT "" Comment "登录用户密码",

@@ -28,7 +28,7 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 }
 
 func (l *LoginLogic) Login(req *types.LoginRequest) (resp *types.LoginResponse, err error) {
-	user_admin, err := l.svcCtx.UserAdminModel.FindOneByUsername(l.ctx, req.LoginUserName)
+	user_admin, err := l.svcCtx.QueryuserModel.FindOneByUsername(l.ctx, req.LoginUserName)
 	if err != nil {
 		logx.Error(err)
 		return nil, err
