@@ -35,7 +35,7 @@ func (l *RegisterLogic) Register(req *types.RegisterRequest) (resp *types.Regist
 	}
 	if err != model.ErrNotFound {
 		logx.Error("find user error:", err)
-		return nil, err
+		return nil, errors.Errorf("查询用户失败，后端数据库错误")
 	}
 
 	_, err = l.svcCtx.QueryuserModel.Insert(l.ctx, &model.Queryuser{
@@ -45,7 +45,7 @@ func (l *RegisterLogic) Register(req *types.RegisterRequest) (resp *types.Regist
 	})
 	if err != nil {
 		logx.Error("insert user error:", err)
-		return nil, err
+		return nil, errors.Errorf("插入用户失败，后端数据库错误")
 	}
 
 	return &types.RegisterResponse{

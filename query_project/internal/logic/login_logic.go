@@ -31,7 +31,7 @@ func (l *LoginLogic) Login(req *types.LoginRequest) (resp *types.LoginResponse, 
 	user_admin, err := l.svcCtx.QueryuserModel.FindOneByUsername(l.ctx, req.LoginUserName)
 	if err != nil {
 		logx.Error(err)
-		return nil, err
+		return nil, errors.Errorf("用户不存在")
 	}
 	// TODO: salt的更新机制
 	hashedPassword := ToHmac(req.LoginPassWord, l.svcCtx.Config.Auth.Salt)
@@ -52,15 +52,16 @@ func (l *LoginLogic) Login(req *types.LoginRequest) (resp *types.LoginResponse, 
 		0,
 	)
 	if err != nil {
-		return nil, err
+		logx.Error("生成token失败, err:", err)
+		return nil, errors.Errorf("生成token失败")
 	}
 	// refreshToken := "refresh_token"
 	redisKey := fmt.Sprintf("Token_%s", jwtToken)
 	redisValue := redisKey
 	err = l.svcCtx.RedisClient.Setex(redisKey, redisValue, int(accessExpire))
 	if err != nil {
-		println("redis set error:", err.Error())
-		return nil, errors.Errorf("redis set error: %s", err.Error())
+		logx.Error("redis set error:", err.Error())
+		return nil, errors.Errorf("后端错误, token缓存失败")
 	}
 
 	// ---------------
